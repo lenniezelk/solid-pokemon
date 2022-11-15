@@ -77,85 +77,76 @@ export const container = style({
 });
 
 export const paginationItem = style({
-  padding: `0 ${theme.gap.medium}`,
-  height: theme.gap.large,
-  textAlign: 'center',
-  margin: `auto ${theme.gap.small}`,
-  color: theme.color.primary,
+  color: theme.color.coffeeLight,
   display: 'flex',
-  boxSizing: 'border-box',
   alignItems: 'center',
-  letterSpacing: '0.01071em',
-  borderRadius: theme.gap.medium,
-  lineHeight: 1.43,
-  fontSize: theme.gap.medium,
-  minWidth: theme.gap.large,
+  justifyContent: 'center',
+  borderRadius: '50%',
+  fontSize: theme.gap.large,
+  width: '40px',
+  height: '40px',
+  ':hover': {
+    backgroundColor: theme.color.secondary,
+    cursor: 'pointer',
+  },
   selectors: {
-    '&:hover': {
-      backgroundColor: theme.color.secondary,
-      cursor: 'pointer',
+    '&.selected': {
+      backgroundColor: theme.color.coffeeDark,
     },
   },
 });
 
-export const dotsButton = style({
-  selectors: {
-    [`${paginationItem}:hover > &`]: {
-      backgroundColor: 'transparent',
-      cursor: 'default',
-    },
+export const dots = style({
+  ':hover': {
+    backgroundColor: 'transparent',
+    cursor: 'default',
   },
 });
 
 export const disabled = style({
   pointerEvents: 'none',
+  ':hover': {
+    backgroundColor: 'transparent',
+    cursor: 'default',
+  },
+});
+
+export const arrow = style({
   selectors: {
-    '&:hover': {
+    '&::before': {
+      position: 'relative',
+      /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
+      content: '',
+      /* By using an em scale, the arrows will size with the font */
+      display: 'inline-block',
+      width: '0.4em',
+      height: '0.4em',
+      borderRight: `0.12em solid ${theme.color.coffeeDark}`,
+      borderTop: `0.12em solid ${theme.color.coffeeDark}`,
+    },
+    [`${disabled} &::before`]: {
+      borderRight: `0.12em solid ${theme.color.coffeeDark}`,
+      borderTop: `0.12em solid ${theme.color.coffeeDark}`,
+    },
+    [`${disabled} &::before`]: {
       backgroundColor: 'transparent',
       cursor: 'default',
     },
   },
 });
 
-const paginationButtonBase = style({
-  borderRadius: '70%',
-  cursor: 'pointer',
-  inset: 0,
-  border: 0,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '48px',
-  height: '48px',
-  fontWeight: 'bold',
-  fontSize: '24px',
-  transition: 'background-color 0.5s ease-out',
+export const arrowLeft = style({
+  selectors: {
+    [`${arrow} &.left`]: {
+      transform: 'rotate(-135deg) translate(-50%)',
+    },
+  },
 });
 
-export const paginationButton = style([
-  paginationButtonBase,
-  {
-    backgroundColor: theme.color.secondary,
-    color: theme.color.coffeeDark,
-    selectors: {
-      '&:hover': {
-        color: theme.color.secondary,
-        backgroundColor: theme.color.coffeeDark,
-      },
+export const arrowRight = style({
+  selectors: {
+    [`${arrow} &.right`]: {
+      transform: 'rotate(45deg)',
     },
   },
-]);
-
-export const paginationButtonSelected = style([
-  paginationButtonBase,
-  {
-    backgroundColor: theme.color.coffeeLight,
-    color: theme.color.secondary,
-    selectors: {
-      '&:hover': {
-        color: theme.color.coffeeLight,
-        backgroundColor: theme.color.secondary,
-      },
-    },
-  },
-]);
+});

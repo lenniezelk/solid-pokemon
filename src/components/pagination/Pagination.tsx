@@ -1,66 +1,78 @@
 import * as paginationStyles from './Pagination.css';
-import PaginationButton from './PaginationButton';
-import {
-  FaSolidBackward,
-  FaSolidCaretLeft,
-  FaSolidCaretRight,
-  FaSolidForward,
-} from 'solid-icons/fa';
-import { createSignal } from 'solid-js';
-import { RowsPerPage } from '~/constants';
-
-const paginationSlots = 3;
-
-const totalPages = (resultsCount: number): number => {
-  if (resultsCount === 0) return 0;
-  let pages = Math.floor(resultsCount / RowsPerPage);
-  if (resultsCount % RowsPerPage !== 0) {
-    pages += 1;
-  }
-  return pages;
-};
-
-const offsetFromPage = (page: number, totalPages: number): number =>
-  page * RowsPerPage - RowsPerPage;
+import { usePagination } from './usePagination';
+import classNames from 'classnames';
+import { createEffect, createMemo } from 'solid-js';
 
 interface PaginationProps {
+  onPageChange: (page: number) => void;
   totalCount: number;
-  onPaginate: (offset: number) => void;
+  siblingCount?: number;
+  currentPage: number;
+  pageSize: number;
 }
 
-export default function Pagination({
+const Pagination = ({
+  onPageChange,
   totalCount,
-  onPaginate,
-}: PaginationProps) {
-  const numberOfPages = totalPages(totalCount);
-  console.log('Number of pages: ', numberOfPages);
-  if (numberOfPages === 0) return null;
-  const onClick = () => console.log('Go to...');
-  const [page, setPage] = createSignal(1);
+  siblingCount = 1,
+  currentPage,
+  pageSize,
+}: PaginationProps) => {
+  const paginationRange = createMemo(() =>
+    usePagination({
+      currentPage,
+      totalCount,
+      siblingCount,
+      pageSize,
+    }),
+  );
+
+  createEffect(() => console.log('BC......', currentPage));
+
+  if (currentPage === 0 || paginationRange().length < 2) return null;
+
+  const onNext = () => onPageChange(currentPage + 1);
+  const onPrevious = () => onPageChange(currentPage - 1);
+
+  const lastPage = paginationRange()[paginationRange().length - 1];
 
   return (
-    <div class={paginationStyles.container}>
-      <PaginationButton onClick={() => onPaginate(0)} title="First Page">
-        <FaSolidBackward size={24} />
-      </PaginationButton>
-      <PaginationButton onClick={onClick} title="Previous Page">
-        <FaSolidCaretLeft size={24} />
-      </PaginationButton>
-      <PaginationButton onClick={onClick} title="Page 1">
-        1
-      </PaginationButton>
-      <PaginationButton onClick={onClick} current={true} title="Page 2">
-        2
-      </PaginationButton>
-      <PaginationButton onClick={onClick} title="Page 3">
-        3
-      </PaginationButton>
-      <PaginationButton onClick={onClick} title="Next Page">
-        <FaSolidCaretRight size={24} />
-      </PaginationButton>
-      <PaginationButton onClick={onClick} title="Last Page">
-        <FaSolidForward size={24} />
-      </PaginationButton>
-    </div>
+    <ul class={paginationStyles.container}>
+      {/* Left navigation arrow */}
+      <li
+        class={classNames(paginationStyles.paginationItem, {
+          disabled: currentPage === 1,
+        })}
+        onClick={onPrevious}
+      >
+        <div class={paginationStyles.arrowLeft} />
+      </li>
+      {paginationRange().map((pageNumber) => {
+        if (typeof pageNumber !== 'number') {
+          return <li class={paginationStyles.dots}>&#8230;</li>;
+        }
+        return (
+          <li
+            class={classNames(paginationStyles.paginationItem, {
+              selected: pageNumber === currentPage,
+            })}
+            onClick={() => onPageChange(pageNumber)}
+          >
+            {pageNumber}
+          </li>
+        );
+      })}
+      {/*  Right Navigation arrow */}
+      <li
+        class={classNames(paginationStyles.paginationItem, {
+          disabled: currentPage === lastPage,
+        })}
+        onClick={onNext}
+      >
+        <div class={paginationStyles.arrowRight} />
+      </li>
+    </ul>
   );
-}
+};
+
+export default Pagination;

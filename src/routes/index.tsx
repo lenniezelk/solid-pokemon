@@ -1,5 +1,5 @@
 import { createSignal, For, Match, Suspense, Switch } from 'solid-js';
-import { createRouteData, useRouteData } from 'solid-start';
+import { createRouteData, refetchRouteData, useRouteData } from 'solid-start';
 import Loading from '~/components/Loading';
 import Pagination from '~/components/pagination/Pagination';
 import PokeCard from '~/components/PokeCard';
@@ -8,23 +8,32 @@ import { RowsPerPage } from '~/constants';
 import { Result, Results } from '~/types';
 import * as indexSyles from './index.css';
 
-const [offset, setOffset] = createSignal(0);
+const offsetFromPage = (page: number): number =>
+  page * RowsPerPage - RowsPerPage;
+
+const [page, setPage] = createSignal(1);
 
 export function routeData() {
   return createRouteData(
     async (key) => {
+      const offset = offsetFromPage(key.page());
+      console.log('Offset>>>> ', offset);
       const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?offset=${key[0]}&limit=${RowsPerPage}`,
+        `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${RowsPerPage}`,
       );
       return (await response.json()) as Results;
     },
     {
-      key: () => [offset],
+      key: { page },
     },
   );
 }
 
-const onPaginate = (offset: number) => setOffset(offset);
+const onPaginate = (page: number) => {
+  console.log('ABC....', page);
+  setPage(page);
+  refetchRouteData([{ page }]);
+};
 
 export default function Home() {
   const results = useRouteData<typeof routeData>();
@@ -50,7 +59,12 @@ export default function Home() {
                 </For>
               </div>
               <div class={indexSyles.paginationContainer}>
-                <Pagination onPaginate={onPaginate} totalCount={totalCount()} />
+                <Pagination
+                  onPageChange={onPaginate}
+                  totalCount={totalCount()}
+                  currentPage={page()}
+                  pageSize={RowsPerPage}
+                />
               </div>
             </Match>
           </Switch>
