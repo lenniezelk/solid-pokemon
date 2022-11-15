@@ -2,8 +2,39 @@ import { globalStyle, style } from '@vanilla-extract/css';
 
 import { theme } from './theme.css';
 
-globalStyle('html, body', {
+globalStyle(`*`, {
+  boxSizing: `border-box`,
   margin: 0,
+});
+
+globalStyle(`html, body`, {
+  height: `100%`,
+  fontSize: `18px`,
+});
+
+globalStyle(`body`, {
+  lineHeight: 1.5,
+  WebkitFontSmoothing: `antialiased`,
+});
+
+globalStyle(`img, picture, video, canvas, svg`, {
+  display: `block`,
+  maxWidth: `100%`,
+});
+
+globalStyle(`input, button, textarea, select`, {
+  font: `inherit`,
+});
+
+globalStyle(`p, h1, h2, h3, h4, h5, h6`, {
+  overflowWrap: `break-word`,
+});
+
+globalStyle(`#root`, {
+  isolation: `isolate`,
+});
+
+globalStyle('html, body', {
   fontFamily: theme.font.body,
   backgroundColor: theme.color.primary,
 });
@@ -15,7 +46,6 @@ globalStyle('main', {
 globalStyle('h1,h2,h3,h4,h5', {
   fontFamily: theme.font.header,
   fontWeight: 'bold',
-  margin: 0,
   color: theme.color.coffeeDark,
 });
 

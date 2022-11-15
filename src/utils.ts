@@ -1,3 +1,4 @@
+import { Accessor, createSignal } from 'solid-js';
 import { Pokemon, PokemonResult } from './types';
 
 function getPokemonFromResult(result: PokemonResult): Pokemon {
@@ -23,3 +24,19 @@ export const fetchPokemon = async (name: string) => {
   const result: PokemonResult = await response.json();
   return getPokemonFromResult(result);
 };
+
+type DeviceSize = 'mobile' | 'tablet' | 'desktop' | 'unknown';
+
+export function useDeviceSize(): Accessor<DeviceSize> {
+  const [deviceSize, setDeviceSize] = createSignal<DeviceSize>('unknown');
+  let mql: MediaQueryList;
+  if (window) {
+    mql = window.matchMedia('(max-width: 480px)');
+    mql.addEventListener('change', (mql) => {
+      if (mql.matches) {
+        setDeviceSize('mobile');
+      }
+    });
+  }
+  return deviceSize;
+}
