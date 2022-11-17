@@ -9,7 +9,7 @@ globalStyle(`*`, {
 
 globalStyle(`html, body`, {
   height: `100%`,
-  fontSize: `18px`,
+  fontSize: theme.fontSize.base,
 });
 
 globalStyle(`body`, {
@@ -51,7 +51,7 @@ globalStyle('h1,h2,h3,h4,h5', {
 });
 
 globalStyle('h1', {
-  fontSize: '2.5rem',
+  fontSize: theme.fontSize['5xl'],
 });
 
 export const container = style({
@@ -71,6 +71,14 @@ globalStyle('nav', {
   alignItems: 'center',
 });
 
-globalStyle('nav > a', {
+globalStyle('a', {
   textDecoration: 'none',
+  color: theme.color.coffeeDark,
+});
+
+globalStyle('footer', {
+  marginTop: theme.gap.xxlarge,
+  color: theme.color.coffeeLight,
+  display: 'flex',
+  justifyContent: 'center',
 });

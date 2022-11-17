@@ -1,4 +1,4 @@
-import { createSignal, For, Match, Suspense, Switch } from 'solid-js';
+import { createSignal, For, Match, Show, Suspense, Switch } from 'solid-js';
 import { createRouteData, refetchRouteData, useRouteData } from 'solid-start';
 import Loading from '~/components/Loading';
 import Pagination from '~/components/pagination/Pagination';
@@ -7,32 +7,32 @@ import SiteTitle from '~/components/SiteTitle';
 import { RowsPerPage } from '~/constants';
 import { Result, Results } from '~/types';
 import * as indexSyles from './index.css';
+import Footer from '~/components/Footer';
 
 const offsetFromPage = (page: number): number =>
   page * RowsPerPage - RowsPerPage;
 
-const [page, setPage] = createSignal(1);
+const [page, setPage] = createSignal(10);
 
 export function routeData() {
   return createRouteData(
     async (key) => {
-      const offset = offsetFromPage(key.page());
-      console.log('Offset>>>> ', offset);
+      const offset = offsetFromPage(key[0]());
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${RowsPerPage}`,
       );
       return (await response.json()) as Results;
     },
     {
-      key: { page },
+      key: () => [page],
     },
   );
 }
 
 const onPaginate = (page: number) => {
-  console.log('ABC....', page);
+  console.log('onPaginate>>>> ', page);
   setPage(page);
-  refetchRouteData([{ page: () => page }]);
+  refetchRouteData([page]);
 };
 
 export default function Home() {
@@ -58,18 +58,21 @@ export default function Home() {
                   {(result) => <PokeCard name={result.name} />}
                 </For>
               </div>
-              <div class={indexSyles.paginationContainer}>
-                <Pagination
-                  onPageChange={onPaginate}
-                  totalCount={totalCount()}
-                  currentPage={page()}
-                  pageSize={RowsPerPage}
-                />
-              </div>
             </Match>
           </Switch>
         </Suspense>
+        <Show when={pokemonList()}>
+          <div class={indexSyles.paginationContainer}>
+            <Pagination
+              onPageChange={onPaginate}
+              totalCount={totalCount()}
+              currentPage={page()}
+              pageSize={RowsPerPage}
+            />
+          </div>
+        </Show>
       </main>
+      <Footer />
     </>
   );
 }

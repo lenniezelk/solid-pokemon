@@ -22,7 +22,7 @@ export default function Root() {
         <Title>Pokemon</Title>
         <Meta charset="utf-8" />
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta name="description" content="Pokemon App built with Solid" />
+        <Meta name="description" content="Pokemon Stats App built with Solid" />
       </Head>
       <Body>
         <div class={container}>

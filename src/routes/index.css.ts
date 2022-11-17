@@ -12,5 +12,7 @@ export const pokeGrid = style({
 });
 
 export const paginationContainer = style({
-  margin: `${theme.gap.large} 0`,
+  margin: `${theme.gap.xlarge} 0`,
+  display: 'flex',
+  justifyContent: 'center',
 });

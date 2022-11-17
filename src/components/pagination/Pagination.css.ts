@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { screen } from '~/constants';
 import { theme } from '~/theme.css';
 
 // .pagination-container {
@@ -82,9 +83,10 @@ export const paginationItem = style({
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '50%',
-  fontSize: theme.gap.large,
-  width: '40px',
-  height: '40px',
+  fontSize: theme.fontSize.lg,
+  width: '30px',
+  height: '30px',
+  margin: `0 ${theme.gap.small}`,
   ':hover': {
     backgroundColor: theme.color.secondary,
     cursor: 'pointer',
@@ -92,6 +94,13 @@ export const paginationItem = style({
   selectors: {
     '&.selected': {
       backgroundColor: theme.color.coffeeDark,
+    },
+  },
+  '@media': {
+    [`screen and (min-width: ${screen.sm})`]: {
+      fontSize: theme.fontSize['2xl'],
+      width: '40px',
+      height: '40px',
     },
   },
 });
@@ -135,18 +144,16 @@ export const arrow = style({
   },
 });
 
-export const arrowLeft = style({
-  selectors: {
-    [`${arrow} &.left`]: {
-      transform: 'rotate(-135deg) translate(-50%)',
-    },
+export const arrowLeft = style([
+  arrow,
+  {
+    transform: 'rotate(-135deg) translate(-50%)',
   },
-});
+]);
 
-export const arrowRight = style({
-  selectors: {
-    [`${arrow} &.right`]: {
-      transform: 'rotate(45deg)',
-    },
+export const arrowRight = style([
+  arrow,
+  {
+    transform: 'rotate(45deg)',
   },
-});
+]);

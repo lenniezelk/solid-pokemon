@@ -2,6 +2,7 @@ import * as paginationStyles from './Pagination.css';
 import { usePagination } from './usePagination';
 import classNames from 'classnames';
 import { createEffect, createMemo } from 'solid-js';
+import { FaSolidAngleLeft, FaSolidAngleRight } from 'solid-icons/fa';
 
 interface PaginationProps {
   onPageChange: (page: number) => void;
@@ -45,7 +46,7 @@ const Pagination = ({
         })}
         onClick={onPrevious}
       >
-        <div class={paginationStyles.arrowLeft} />
+        <FaSolidAngleLeft />
       </li>
       {paginationRange().map((pageNumber) => {
         if (typeof pageNumber !== 'number') {
@@ -69,7 +70,7 @@ const Pagination = ({
         })}
         onClick={onNext}
       >
-        <div class={paginationStyles.arrowRight} />
+        <FaSolidAngleRight />
       </li>
     </ul>
   );

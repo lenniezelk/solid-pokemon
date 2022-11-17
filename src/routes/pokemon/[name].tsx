@@ -2,6 +2,7 @@ import { A } from '@solidjs/router';
 import { Match, Suspense, Switch } from 'solid-js';
 import { createRouteData, RouteDataArgs, useRouteData } from 'solid-start';
 import { useParams } from 'solid-start';
+import Footer from '~/components/Footer';
 import Loading from '~/components/Loading';
 import PokemonDetailed from '~/components/PokemonDetailed';
 import SiteTitle from '~/components/SiteTitle';
@@ -32,6 +33,7 @@ export default function Pokemon() {
           </Switch>
         </Suspense>
       </main>
+      <Footer />
     </>
   );
 }
