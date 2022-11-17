@@ -17,9 +17,9 @@ export default function PokeCard({ name }: { name: string }) {
       </Match>
       <Match when={pokemon()}>
         <A class={pokeCardStyles.pokeCard} href={`/pokemon/${pokemon().name}`}>
-          {pokemon().sprites.frontDefaultOfficial ? (
+          {pokemon().sprites.official ? (
             <img
-              src={pokemon().sprites.frontDefaultOfficial}
+              src={pokemon().sprites.official?.frontDefault}
               alt={pokemon().name}
               class={pokeCardStyles.pokeCardImg}
             />

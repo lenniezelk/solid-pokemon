@@ -3,28 +3,31 @@ import { Match, Suspense, Switch } from 'solid-js';
 import { createRouteData, RouteDataArgs, useRouteData } from 'solid-start';
 import { useParams } from 'solid-start';
 import Loading from '~/components/Loading';
+import PokemonDetailed from '~/components/PokemonDetailed';
 import SiteTitle from '~/components/SiteTitle';
 import { fetchPokemon } from '~/utils';
 
-export default function Pokemon({ name }: { name: string }) {
+export default function Pokemon() {
   const data = useRouteData<typeof routeData>();
   const params = useParams();
 
   return (
     <>
       <nav>
-        <h1>{params.name}</h1>
+        <h1 style={{ 'text-transform': 'capitalize' }}>{params.name}</h1>
         <A href="/">Home</A>
       </nav>
       <main>
         <Suspense fallback={<Loading />}>
-          <SiteTitle>{params.name}</SiteTitle>
+          <SiteTitle>{`${params.name[0].toUpperCase()}${params.name.slice(
+            1,
+          )}`}</SiteTitle>
           <Switch>
             <Match when={data.error}>
-              <p>Failed to fetch {name}</p>
+              <p>Failed to fetch {params.name}</p>
             </Match>
             <Match when={data()}>
-              <h1>{data().name}</h1>
+              <PokemonDetailed pokemon={data()} />
             </Match>
           </Switch>
         </Suspense>

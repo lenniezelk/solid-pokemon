@@ -32,7 +32,7 @@ export function routeData() {
 const onPaginate = (page: number) => {
   console.log('ABC....', page);
   setPage(page);
-  refetchRouteData([{ page }]);
+  refetchRouteData([{ page: () => page }]);
 };
 
 export default function Home() {

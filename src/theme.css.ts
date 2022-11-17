@@ -1,4 +1,5 @@
 import { createGlobalTheme } from '@vanilla-extract/css';
+import { screen } from '~/constants';
 
 export const theme = createGlobalTheme(':root', {
   color: {
@@ -16,5 +17,10 @@ export const theme = createGlobalTheme(':root', {
     small: '8px',
     medium: '16px',
     large: '24px',
+    xlarge: '32px',
+    xxlarge: '40px',
+  },
+  screen: {
+    ...screen,
   },
 });

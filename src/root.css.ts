@@ -20,6 +20,7 @@ globalStyle(`body`, {
 globalStyle(`img, picture, video, canvas, svg`, {
   display: `block`,
   maxWidth: `100%`,
+  maxHeight: `100%`,
 });
 
 globalStyle(`input, button, textarea, select`, {
@@ -56,17 +57,12 @@ globalStyle('h1', {
 export const container = style({
   maxWidth: '900px',
   padding: `0 ${theme.gap.small}`,
-  margin: `${theme.gap.large} auto 0`,
+  margin: `${theme.gap.large} auto`,
   '@media': {
     'screen and (min-width: 480px)': {
       padding: `0 ${theme.gap.large}`,
     },
   },
-});
-
-globalStyle('img', {
-  width: '100%',
-  height: '100%',
 });
 
 globalStyle('nav', {

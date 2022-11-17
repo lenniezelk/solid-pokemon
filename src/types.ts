@@ -9,11 +9,20 @@ export interface PokemonResultAbility {
 }
 
 export interface PokemonResult {
+  forms: { name: string }[];
+  base_experience: number;
+  height: number;
+  weight: number;
+  id: number;
+  moves: { name: string }[];
+  species: { name: string };
+  stats: { stat: { name: string }; base_stat: number; effort: number }[];
+  types: { type: { name: string } }[];
   name: string;
   abilities: PokemonResultAbility[];
   sprites: {
-    front_default: string;
-    back_default: string;
+    frontDefault: string;
+    backDefault: string;
     other: {
       'official-artwork'?: {
         front_default: string;
@@ -41,7 +50,23 @@ export interface Sprites {
 }
 
 export interface Pokemon {
+  forms: { name: string }[];
+  baseExperience: number;
+  height: number;
+  weight: number;
+  id: number;
+  moves: { name: string }[];
+  species: string;
+  stats: { name: string; baseStat: number; effort: number }[];
+  types: { name: string }[];
   name: string;
   abilities: Ability[];
-  sprites: Sprites;
+  sprites: {
+    frontDefault: string;
+    backDefault: string;
+    official?: {
+      frontDefault: string;
+      backDefault?: string;
+    };
+  };
 }

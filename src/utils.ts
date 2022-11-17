@@ -3,19 +3,34 @@ import { Pokemon, PokemonResult } from './types';
 
 function getPokemonFromResult(result: PokemonResult): Pokemon {
   return {
+    id: result.id,
     name: result.name,
     abilities: result.abilities.map((ability) => ({
       name: ability.ability.name,
       isHidden: ability.is_hidden,
     })),
     sprites: {
-      frontDefault: result.sprites.front_default,
-      backDefault: result.sprites.back_default,
-      backDefaultOfficial:
-        result.sprites.other?.['official-artwork']?.front_default,
-      frontDefaultOfficial:
-        result.sprites.other?.['official-artwork']?.front_default,
+      frontDefault: result.sprites.frontDefault,
+      backDefault: result.sprites.backDefault,
+      official: {
+        frontDefault: result.sprites.other?.['official-artwork']?.front_default,
+        backDefault: result.sprites.other?.['official-artwork']?.back_default,
+      },
     },
+    height: result.height,
+    weight: result.weight,
+    baseExperience: result.base_experience,
+    moves: result.moves,
+    species: result.species.name,
+    stats: result.stats.map((stat) => {
+      return {
+        name: stat.stat.name,
+        baseStat: stat.base_stat,
+        effort: stat.effort,
+      };
+    }),
+    types: result.types.map((type) => ({ name: type.type.name })),
+    forms: result.forms,
   };
 }
 
