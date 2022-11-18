@@ -5,6 +5,7 @@ import { theme } from './theme.css';
 globalStyle(`*`, {
   boxSizing: `border-box`,
   margin: 0,
+  padding: 0,
 });
 
 globalStyle(`html, body`, {
