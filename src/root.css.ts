@@ -42,6 +42,7 @@ globalStyle('html, body', {
 
 globalStyle('main', {
   marginTop: theme.gap.medium,
+  minHeight: '70vh',
 });
 
 globalStyle('h1,h2,h3,h4,h5', {
