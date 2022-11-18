@@ -31,14 +31,14 @@ export const usePagination = ({
       Calculate left and right sibling index and make sure they are within range 1 and totalPageCount
     */
   const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
-  const righSiblingIndex = Math.min(currentPage + siblingCount, totalCount);
+  const righSiblingIndex = Math.min(currentPage + siblingCount, totalPageCount);
 
   /*
       We do not show dots just when there is just one page number to be inserted between the extremes of sibling and the page limits
       i.e 1 and totalPageCount. Hence we are using leftSiblingIndex > 2 and rightSiblingIndex < totalPageCount - 2
     */
   const showLeftDots = leftSiblingIndex > 2;
-  const showRightDots = righSiblingIndex < totalCount - 2;
+  const showRightDots = righSiblingIndex < totalPageCount - 2;
 
   const firstPageIndex = 1;
   const lastPageIndex = totalPageCount;

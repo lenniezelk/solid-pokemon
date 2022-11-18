@@ -1,5 +1,11 @@
-import { createSignal, For, Match, Show, Suspense, Switch } from 'solid-js';
-import { createRouteData, refetchRouteData, useRouteData } from 'solid-start';
+import {
+  createResource,
+  createSignal,
+  For,
+  Match,
+  Suspense,
+  Switch,
+} from 'solid-js';
 import Loading from '~/components/Loading';
 import Pagination from '~/components/pagination/Pagination';
 import PokeCard from '~/components/PokeCard';
@@ -12,33 +18,25 @@ import Footer from '~/components/Footer';
 const offsetFromPage = (page: number): number =>
   page * RowsPerPage - RowsPerPage;
 
-const [page, setPage] = createSignal(10);
-
-export function routeData() {
-  return createRouteData(
-    async (key) => {
-      const offset = offsetFromPage(key[0]());
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${RowsPerPage}`,
-      );
-      return (await response.json()) as Results;
-    },
-    {
-      key: () => [page],
-    },
-  );
-}
-
-const onPaginate = (page: number) => {
-  console.log('onPaginate>>>> ', page);
-  setPage(page);
-  refetchRouteData([page]);
-};
+const [page, setPage] = createSignal(1);
 
 export default function Home() {
-  const results = useRouteData<typeof routeData>();
+  const [results] = createResource(
+    () =>
+      `https://pokeapi.co/api/v2/pokemon?offset=${offsetFromPage(
+        page(),
+      )}&limit=${RowsPerPage}`,
+    async (path) => {
+      const response = await fetch(path);
+      return (await response.json()) as Results;
+    },
+  );
   const pokemonList: () => Result[] = () => results()?.results;
   const totalCount: () => number = () => results()?.count;
+
+  const onPaginate = (page: number) => {
+    setPage(page);
+  };
 
   return (
     <>
@@ -60,17 +58,15 @@ export default function Home() {
               </div>
             </Match>
           </Switch>
-        </Suspense>
-        <Show when={pokemonList()}>
           <div class={indexSyles.paginationContainer}>
             <Pagination
               onPageChange={onPaginate}
-              totalCount={totalCount()}
-              currentPage={page()}
+              totalCount={totalCount}
+              currentPage={page}
               pageSize={RowsPerPage}
             />
           </div>
-        </Show>
+        </Suspense>
       </main>
       <Footer />
     </>

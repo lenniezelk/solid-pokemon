@@ -1,14 +1,14 @@
 import * as paginationStyles from './Pagination.css';
 import { usePagination } from './usePagination';
 import classNames from 'classnames';
-import { createEffect, createMemo } from 'solid-js';
+import { Accessor, createEffect, createMemo } from 'solid-js';
 import { FaSolidAngleLeft, FaSolidAngleRight } from 'solid-icons/fa';
 
 interface PaginationProps {
   onPageChange: (page: number) => void;
-  totalCount: number;
+  totalCount: Accessor<number>;
   siblingCount?: number;
-  currentPage: number;
+  currentPage: Accessor<number>;
   pageSize: number;
 }
 
@@ -19,21 +19,20 @@ const Pagination = ({
   currentPage,
   pageSize,
 }: PaginationProps) => {
-  const paginationRange = createMemo(() =>
-    usePagination({
-      currentPage,
-      totalCount,
+  const paginationRange = createMemo(() => {
+    const cp = currentPage();
+    const tc = totalCount();
+
+    return usePagination({
+      currentPage: cp,
+      totalCount: tc,
       siblingCount,
       pageSize,
-    }),
-  );
+    });
+  });
 
-  createEffect(() => console.log('BC......', currentPage));
-
-  if (currentPage === 0 || paginationRange().length < 2) return null;
-
-  const onNext = () => onPageChange(currentPage + 1);
-  const onPrevious = () => onPageChange(currentPage - 1);
+  const onNext = () => onPageChange(currentPage() + 1);
+  const onPrevious = () => onPageChange(currentPage() - 1);
 
   const lastPage = paginationRange()[paginationRange().length - 1];
 
@@ -42,7 +41,7 @@ const Pagination = ({
       {/* Left navigation arrow */}
       <li
         class={classNames(paginationStyles.paginationItem, {
-          disabled: currentPage === 1,
+          [paginationStyles.disabled]: currentPage() === 1,
         })}
         onClick={onPrevious}
       >
@@ -55,7 +54,7 @@ const Pagination = ({
         return (
           <li
             class={classNames(paginationStyles.paginationItem, {
-              selected: pageNumber === currentPage,
+              selected: pageNumber === currentPage(),
             })}
             onClick={() => onPageChange(pageNumber)}
           >
@@ -66,7 +65,7 @@ const Pagination = ({
       {/*  Right Navigation arrow */}
       <li
         class={classNames(paginationStyles.paginationItem, {
-          disabled: currentPage === lastPage,
+          [paginationStyles.disabled]: currentPage() === lastPage,
         })}
         onClick={onNext}
       >
