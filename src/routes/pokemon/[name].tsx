@@ -3,7 +3,7 @@ import { Match, Suspense, Switch } from 'solid-js';
 import { createRouteData, RouteDataArgs, useRouteData } from 'solid-start';
 import { useParams } from 'solid-start';
 import Footer from '~/components/Footer';
-import Loading from '~/components/Loading';
+import Loading from '~/components/loading/Loading';
 import PokemonDetailed from '~/components/PokemonDetailed';
 import SiteTitle from '~/components/SiteTitle';
 import { fetchPokemon } from '~/utils';
@@ -19,7 +19,7 @@ export default function Pokemon() {
         <A href="/">Home</A>
       </nav>
       <main>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loading width={300} height={300} />}>
           <SiteTitle>{`${params.name[0].toUpperCase()}${params.name.slice(
             1,
           )}`}</SiteTitle>

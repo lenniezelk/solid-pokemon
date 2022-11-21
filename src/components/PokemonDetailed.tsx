@@ -12,7 +12,6 @@ const Stat = ({ children }: { children: JSX.Element }) => {
 };
 
 export default function PokemonDetailed({ pokemon }: { pokemon: Pokemon }) {
-  console.log('>>>>> ', pokemon);
   return (
     <div class={pokemonDetailedStyles.container}>
       <section>

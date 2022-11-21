@@ -6,7 +6,7 @@ import {
   Suspense,
   Switch,
 } from 'solid-js';
-import Loading from '~/components/Loading';
+import Loading from '~/components/loading/Loading';
 import Pagination from '~/components/pagination/Pagination';
 import PokeCard from '~/components/PokeCard';
 import SiteTitle from '~/components/SiteTitle';
@@ -45,7 +45,7 @@ export default function Home() {
       </nav>
       <main>
         <SiteTitle>Home</SiteTitle>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loading width={400} height={400} />}>
           <Switch>
             <Match when={results.error}>
               <p>Failed to fetch Pokemon</p>

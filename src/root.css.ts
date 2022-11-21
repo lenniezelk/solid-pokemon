@@ -11,6 +11,7 @@ globalStyle(`*`, {
 globalStyle(`html, body`, {
   height: `100%`,
   fontSize: theme.fontSize.base,
+  color: theme.color.coffeeDark,
 });
 
 globalStyle(`body`, {
