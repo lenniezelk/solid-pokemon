@@ -5,5 +5,5 @@ import cloudflare from 'solid-start-cloudflare-pages';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 
 export default defineConfig({
-  plugins: [solid({ adapter: cloudflare({}) }), vanillaExtractPlugin()],
+  plugins: [vanillaExtractPlugin(), solid({ adapter: cloudflare({}) })],
 });
