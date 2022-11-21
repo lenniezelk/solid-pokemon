@@ -8,6 +8,7 @@
   "type": "module",
   "devDependencies": {
     "@vanilla-extract/vite-plugin": "^3.7.0",
+    "solid-start-cloudflare-pages": "^0.2.5",
     "solid-start-node": "^0.2.5",
     "typescript": "^4.9.3",
     "vite": "^3.2.4"
