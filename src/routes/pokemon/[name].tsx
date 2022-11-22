@@ -1,5 +1,5 @@
 import { A } from '@solidjs/router';
-import { Match, Suspense, Switch } from 'solid-js';
+import { createEffect, Match, Suspense, Switch } from 'solid-js';
 import { createRouteData, RouteDataArgs, useRouteData } from 'solid-start';
 import { useParams } from 'solid-start';
 import Footer from '~/components/Footer';
@@ -25,6 +25,9 @@ export default function Pokemon() {
           )}`}</SiteTitle>
           <Switch>
             <Match when={data.error}>
+              <p>Failed to fetch {params.name}</p>
+            </Match>
+            <Match when={data() === undefined || data().id === undefined}>
               <p>Failed to fetch {params.name}</p>
             </Match>
             <Match when={data()}>
